@@ -2,7 +2,9 @@ Name: Label New Issues
 on:
   issues:
     types: [opened]
-      runs on: ubuntu-latest
+jobs:
+  label-issues:
+      runs-on: ubuntu-latest
       permissions:
         issues: write
         contents: read
