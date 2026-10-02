@@ -1,23 +1,19 @@
-Name: Label New Issues
+name: Label issues
 on:
   issues:
-    types: [opened]
+    types:
+      - reopened
+      - opened
+
 jobs:
   label-issues:
-      runs-on: ubuntu-latest
-      permissions:
-        issues: write
-        contents: read
-
-      steps:
-      - name: Checkout repository
-        uses: actions/checkout@v6
-      - name: Add triage label
-        uses: actions/github-script@v6
+    runs-on: ubuntu_latest
+    permissions:
+      issues: write
+    steps:
+      - run: gh issue edit "$NUMBER" --add-label "$LABELS"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ISSUE_NUMBER: ${{ github.event.issue.number }}
-          LABEL: 'triage'
-
-        run: gh issue edit "$ISSUE_NUMBER" --add-label "$LABEL"
-      
+          GH_REPO: ${{ github.repository}}
+          NUMBER: ${{ github.event.issue.number }}
+          LABELS: enhancement
